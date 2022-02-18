@@ -31,7 +31,9 @@ class SafeCrackerView extends StatefulWidget {
 
 class _SafeCrackerViewState extends State<SafeCrackerView> {
   List<int> values = [0, 0, 0];
-
+  String combination = "420";
+  String feedback = '';
+  bool isUnlocked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,11 +47,18 @@ class _SafeCrackerViewState extends State<SafeCrackerView> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(false ? CupertinoIcons.lock_open_fill: CupertinoIcons.lock_fill,size: 128,color: Colors.redAccent,),
+            Icon(
+              isUnlocked
+                  ? CupertinoIcons.lock_open_fill
+                  : CupertinoIcons.lock_fill,
+              size: 128,
+              color: Colors.redAccent,
+            ),
             Container(
-              margin:const EdgeInsets.only(top: 32),
+              margin: const EdgeInsets.symmetric(vertical: 32),
               height: 120,
-              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 for (int i = 0; i < values.length; i++)
                   SafeDial(
                     startingValue: values[i],
@@ -65,11 +74,12 @@ class _SafeCrackerViewState extends State<SafeCrackerView> {
                     },
                   ),
               ]),
-            ), 
+            ),
+            if (feedback.isNotEmpty) Text(feedback),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 48),
               child: TextButton(
-                onPressed: () {},
+                onPressed: unlockSafe,
                 child: Container(
                   padding: const EdgeInsets.all(32),
                   color: Colors.greenAccent,
@@ -81,6 +91,35 @@ class _SafeCrackerViewState extends State<SafeCrackerView> {
         ),
       ),
     );
+  }
+
+  unlockSafe() {
+    if (checkCombination()) {
+      setState(() {
+        isUnlocked = true;
+        feedback = "You unlocked the safe!";
+      });
+    }
+    else {
+       setState(() {
+        isUnlocked = false;
+        feedback = "Wrong combination, try again!";
+      });
+    }
+  }
+
+  bool checkCombination() {
+    String theCurrentValue = convertValuesToComparableString(values);
+    bool isUnlocked = (theCurrentValue == combination);
+    return isUnlocked;
+  }
+
+  String convertValuesToComparableString(List<int> val) {
+    String temp = "";
+    for (int v in val) {
+      temp += "$v";
+    }
+    return temp;
   }
 
   int sumOfAllValues(List<int> list) {
