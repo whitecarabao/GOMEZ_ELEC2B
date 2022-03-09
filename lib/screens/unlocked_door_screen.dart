@@ -28,7 +28,8 @@ class _UnlockedDoorScreenState extends State<UnlockedDoorScreen> {
                 children: [
                   OutlinedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.white30),
                     ),
                     onPressed: () {
                       Navigator.of(context).pop(true);

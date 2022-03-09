@@ -32,9 +32,9 @@ class FinalScreen extends StatelessWidget {
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).size.height * 0.10),
             child: Text(
-              "You made it outside $player, congratulations!",
+              "You made it to second sem, $player, congratulations!",
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontSize: 32),
+              style: const TextStyle(color: Colors.black, fontSize: 32),
             ),
           ),
         ),
